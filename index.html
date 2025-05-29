@@ -30,15 +30,35 @@
             altura:auto;
             margen inferior: 10px;
         }
+        .eslogan {
+            tamaño de fuente: 18px;
+            peso de fuente: negrita;
+            color: #28a745;
+            margen: 5px 0 15px 0;
+            familia de fuentes: 'Arial Black', Arial, sans-serif;
+            text-transform: mayúsculas;
+            espaciado entre letras: 1px;
+        }
         h1 {
             color: #003087;
             tamaño de fuente: 24px;
             margen: 5px 0;
         }
-        .subtítulo {
-            color: #555;
-            tamaño de fuente: 16px;
-            margen inferior: 15px;
+        .whatsapp-contacto {
+            pantalla: flex;
+            alinear-elementos: centro;
+            justificar-contenido: centro;
+            margen inferior: 20px;
+        }
+        .logotipo de whatsapp {
+            ancho: 24px;
+            altura: 24px;
+            margen derecho: 10px;
+        }
+        .número-de-teléfono {
+            peso de fuente: negrita;
+            color: #003087;
+            tamaño de fuente: 18px;
         }
         .grupo de entrada {
             margen inferior: 15px;
@@ -120,47 +140,26 @@
             margen: 15px 0;
             alinear texto: centro;
         }
-        /* Nuevos estilos agregados */
         .venezuela-flag {
             ancho máximo: 30px;
             altura:auto;
             alineación vertical: medio;
             margen izquierdo: 5px;
         }
-        .whatsapp-contacto {
-            pantalla: flex;
-            alinear-elementos: centro;
-            justificar-contenido: centro;
-            margen inferior: 15px;
-        }
-        .logotipo de whatsapp {
-            ancho máximo: 20px;
-            altura:auto;
-            margen derecho: 8px;
-        }
-        .número-de-teléfono {
-            peso de fuente: negrita;
-            color: #003087;
-        }
     </estilo>
 </cabeza>
 <cuerpo>
     <div class="calculadora">
-        <!-- Encabezado con logo y título -->
         <div class="encabezado">
-            < https://github.com/macmacteam/speed-calculadora-paypal/blob/main/speed.png?raw=true >​​​
-            <img src=" https://github.com/ macmacteam/speed-calculadora- paypal/blob/main/speed.png? raw=true " alt="Tu Cambio Rápido y Seguro" class="logo">
-            <!-- Contacto WhatsApp -->
+            <img src=" https://github.com/macmacteam/speed-calculadora-paypal/blob/main/TRANSPA.png?raw=true " alt ="Logotipo" class="logotipo" >
+            <div class="slogan">TU CAMBIO RÁPIDO Y SEGURO</div>
             <div class="contacto-de-whatsapp">
-                < https://github.com/macmacteam/speed-calculatora-paypal/blob/main/whatsap.png ?​ crudo=verdadero >
-                <img src=" https://github.com/macmacteam/calculadora-de-velocidad-paypal/blob/main/whatsap.png?raw=true " alt ="WhatsApp" class="logotipo-de-whatsapp" >
+                <img src=" https://github.com/macmacteam/calculadora-de-velocidad-paypal/blob/main/Imagen1%20(2).png?raw=true " alt ="WhatsApp" class="logotipo-de-whatsapp" >
                 <div class="phone-number">+57 314 7641813</div>
             </div>
             <h1>Calculadora PayPal USD → VES</h1>
-            <div class="subtitle">Tu cambio Rápido y Seguro</div>
         </div>
         
-        <!-- Campo para el monto en PayPal -->
         <div class="grupo-de-entrada">
             <label>Monto a vender en PayPal (USD):</label>
             <div class="entrada-con-logotipo">
@@ -169,7 +168,6 @@
             </div>
         </div>
         
-        <!-- Resultados calculados -->
         <div class="cuadro-de-resultado">
             <div class="result-title">Llega después de comisiones:</div>
             94,30 USD
@@ -182,15 +180,13 @@
             <div class="result-title">Bolívares a recibir:</div>
             <div class="valor-del-resultado">
                 123.456,78 bolívares
-                < https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true >​​​
-                <img src=" https://github.com/macmacteam/speed-calculator-paypal/blob/main/venezuela.png?raw=true " alt = " Venezuela" class="venezuela-flag">
+                <img src=" https://github.com/macmacteam/speed-calculadora-paypal/blob/main/%E2%80%94Pngtree%E2%80%94venezuela%20round%20flag%20glossy%20glass_14464425%20(1).png?raw=true " alt= " Venezuela" class = " venezuela-flag">
             </div>
             <div style="font-size: 12px; color: #777;">
-                Tasa: <span id="current-rate">1.234,56 VES/USD</span>
+                Tasa de cambio: <span id="current-rate">1.234,56 VES/USD</span>
             </div>
         </div>
         
-        <!-- Formulario de contacto MODIFICADO -->
         <div class="grupo-de-entrada">
             <label>¿Es titular de la cuenta PayPal?</label>
             <seleccionar id="titular">
@@ -205,16 +201,14 @@
         </div>
         
         <div class="grupo-de-entrada">
-            <label>Correo del titular asociado a PayPal:</label>
+            <label>Correo del titular asociado de PayPal:</label>
             <input type="email" id="correo" placeholder="Ej: ejemplo@gmail.com ">
         </div>
         
-        <!-- Nota importante -->
         <div class="nota">
-            💡 Si es primera vez que cambia PayPal con nosotros, deberá consignar otros datos adicionales para validación.
+            💡Si es primera vez que cambia PayPal con nosotros, deberá consignar otros datos adicionales para validación.
         </div>
         
-        <!-- Botón que redirige a WhatsApp -->
         <button onclick="sendWhatsApp()"> ENVIAR PEDIDO POR WHATSAPP</button>
         
         <div class="tasa-info">
@@ -223,7 +217,6 @@
     </div>
 
     <guión>
-        // ¡EDITA ESTOS VALORES DIARIAMENTE!
         constante igualVES = 1234.56;
         const comisionPorcentaje = 5.4;
         comisión constanteFijaUSD = 0.30;
@@ -260,7 +253,7 @@
         }
 
         document.addEventListener(" DOMContentLoaded", calcular);
-        document.getElementById(" cantidad-paypal"). addEventListener("entrada", calcular);
+        document.getElementById(" cantidad-paypal"). addEventListener("input", calcular);
         document.getElementById(" fecha").textContent = new Date().toLocaleDateString("es- ES");
     </script>
 </cuerpo>
