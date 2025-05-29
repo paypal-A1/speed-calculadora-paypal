@@ -1,159 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<cabeza>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora PayPal USD → VES</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+    <meta name="viewport" content="ancho=ancho-del-dispositivo, escala-inicial=1.0">
+    Calculadora PayPal USD → VES
+    <estilo>
+        cuerpo {
+            familia de fuentes: Arial, sans-serif;
+            fondo: #f0f2f5;
+            margen: 0;
+            relleno: 20px;
+            pantalla: flex;
+            justificar-contenido: centro;
         }
-        .calculator {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
+        .calculadora {
+            fondo: blanco;
+            radio del borde: 10px;
+            relleno: 20px;
+            caja-sombra: 0 2px 10px rgba(0, 0, 0, 0.1);
+            ancho máximo: 400px;
+            ancho: 100%;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 15px;
+        .encabezado {
+            alinear texto: centro;
+            margen inferior: 15px;
         }
-        .logo {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
+        .logotipo {
+            ancho máximo: 150px;
+            altura:auto;
+            margen inferior: 10px;
         }
         h1 {
             color: #003087;
-            font-size: 24px;
-            margin: 5px 0;
+            tamaño de fuente: 24px;
+            margen: 5px 0;
         }
-        .subtitle {
+        .subtítulo {
             color: #555;
-            font-size: 16px;
-            margin-bottom: 15px;
+            tamaño de fuente: 16px;
+            margen inferior: 15px;
         }
-        .input-group {
-            margin-bottom: 15px;
+        .grupo de entrada {
+            margen inferior: 15px;
         }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
+        etiqueta del grupo de entrada {
+            pantalla: bloque;
+            margen inferior: 5px;
             color: #333;
-            font-weight: bold;
+            peso de fuente: negrita;
         }
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box;
+        .grupo de entrada entrada, .grupo de entrada seleccionar {
+            ancho: 100%;
+            relleno: 10px;
+            borde: 1px sólido #ddd;
+            radio del borde: 5px;
+            tamaño de fuente: 16px;
+            tamaño de caja: caja de borde;
         }
-        .input-with-logo {
-            position: relative;
+        .entrada-con-logotipo {
+            posición: relativa;
         }
-        .input-with-logo input {
-            padding-right: 80px;
+        .input-con-logotipo entrada {
+            relleno-derecho: 80px;
         }
         .paypal-logo {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
+            posición: absoluta;
+            derecha: 10px;
+            parte superior: 50%;
+            transformar: translateY(-50%);
             color: #003087;
-            font-weight: bold;
-            font-size: 14px;
+            peso de fuente: negrita;
+            tamaño de fuente: 14px;
         }
-        .result-box {
-            background: #f8f9fa;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: center;
+        .cuadro de resultados {
+            fondo: #f8f9fa;
+            radio del borde: 5px;
+            relleno: 15px;
+            margen inferior: 15px;
+            alinear texto: centro;
         }
-        .result-title {
+        .título-del-resultado {
             color: #555;
-            font-size: 14px;
-            margin-bottom: 5px;
+            tamaño de fuente: 14px;
+            margen inferior: 5px;
         }
-        .result-value {
-            font-size: 24px;
-            font-weight: bold;
+        .valor-resultado {
+            tamaño de fuente: 24px;
+            peso de fuente: negrita;
             color: #003087;
-            margin-bottom: 5px;
+            margen inferior: 5px;
         }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #003087;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        botón {
+            ancho: 100%;
+            relleno: 12px;
+            fondo: #003087;
+            color: blanco;
+            borde: ninguno;
+            radio del borde: 5px;
+            tamaño de fuente: 16px;
+            peso de fuente: negrita;
+            cursor: puntero;
+            margen superior: 10px;
         }
-        button:hover {
-            background: #002366;
+        botón:hover {
+            fondo: #002366;
         }
         .tasa-info {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 12px;
+            alinear texto: centro;
+            margen superior: 15px;
+            tamaño de fuente: 12px;
             color: #777;
         }
-        .nota {
-            font-size: 12px;
+        .usar {
+            tamaño de fuente: 12px;
             color: #d35400;
-            background: #fdebd0;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 15px 0;
-            text-align: center;
+            fondo: #fdebd0;
+            relleno: 10px;
+            radio del borde: 5px;
+            margen: 15px 0;
+            alinear texto: centro;
         }
         /* Nuevos estilos agregados */
         .venezuela-flag {
-            max-width: 30px;
-            height: auto;
-            vertical-align: middle;
-            margin-left: 5px;
+            ancho máximo: 30px;
+            altura:auto;
+            alineación vertical: medio;
+            margen izquierdo: 5px;
         }
-        .whatsapp-contact {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
+        .whatsapp-contacto {
+            pantalla: flex;
+            alinear-elementos: centro;
+            justificar-contenido: centro;
+            margen inferior: 15px;
         }
-        .whatsapp-logo {
-            max-width: 20px;
-            height: auto;
-            margin-right: 8px;
+        .logotipo de whatsapp {
+            ancho máximo: 20px;
+            altura:auto;
+            margen derecho: 8px;
         }
-        .phone-number {
-            font-weight: bold;
+        .número-de-teléfono {
+            peso de fuente: negrita;
             color: #003087;
         }
-    </style>
-</head>
-<body>
-    <div class="calculator">
+    </estilo>
+</cabeza>
+<cuerpo>
+    <div class="calculadora">
         <!-- Encabezado con logo y título -->
-        <div class="header">
-            <https://github.com/macmacteam/speed-calculadora-paypal/blob/main/speed.png?raw=true>
-            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/speed.png?raw=true" alt="Tu Cambio Rápido y Seguro" class="logo">
+        <div class="encabezado">
+            < https://github.com/macmacteam/speed-calculadora-paypal/blob/main/speed.png?raw=true >​​​
+            <img src=" https://github.com/ macmacteam/speed-calculadora- paypal/blob/main/speed.png? raw=true " alt="Tu Cambio Rápido y Seguro" class="logo">
             <!-- Contacto WhatsApp -->
-            <div class="whatsapp-contact">
-                <https://github.com/macmacteam/speed-calculadora-paypal/blob/main/whatsap.png?raw=true>
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/whatsap.png?raw=true" alt="WhatsApp" class="whatsapp-logo">
+            <div class="contacto-de-whatsapp">
+                < https://github.com/macmacteam/speed-calculatora-paypal/blob/main/whatsap.png ?​ crudo=verdadero >
+                <img src=" https://github.com/macmacteam/calculadora-de-velocidad-paypal/blob/main/whatsap.png?raw=true " alt ="WhatsApp" class="logotipo-de-whatsapp" >
                 <div class="phone-number">+57 314 7641813</div>
             </div>
             <h1>Calculadora PayPal USD → VES</h1>
@@ -161,52 +161,52 @@
         </div>
         
         <!-- Campo para el monto en PayPal -->
-        <div class="input-group">
+        <div class="grupo-de-entrada">
             <label>Monto a vender en PayPal (USD):</label>
-            <div class="input-with-logo">
+            <div class="entrada-con-logotipo">
                 <input type="number" id="paypal-amount" placeholder="Ej: 100" value="100">
-                <div class="paypal-logo">PayPal</div>
+                PayPal​
             </div>
         </div>
         
         <!-- Resultados calculados -->
-        <div class="result-box">
+        <div class="cuadro-de-resultado">
             <div class="result-title">Llega después de comisiones:</div>
-            <div class="result-value" id="net-amount">94.30 USD</div>
+            94,30 USD
             <div style="font-size: 12px; color: #777;">
                 Comisión: 5.4% + $0.30 USD
             </div>
         </div>
         
-        <div class="result-box">
+        <div class="cuadro-de-resultado">
             <div class="result-title">Bolívares a recibir:</div>
-            <div class="result-value">
-                <span id="ves-amount">123,456.78 VES</span>
-                <https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true>
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="Venezuela" class="venezuela-flag">
+            <div class="valor-del-resultado">
+                123.456,78 bolívares
+                < https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true >​​​
+                <img src=" https://github.com/macmacteam/speed-calculator-paypal/blob/main/venezuela.png?raw=true " alt = " Venezuela" class="venezuela-flag">
             </div>
             <div style="font-size: 12px; color: #777;">
-                Tasa: <span id="tasa-actual">1,234.56 VES/USD</span>
+                Tasa: <span id="current-rate">1.234,56 VES/USD</span>
             </div>
         </div>
         
         <!-- Formulario de contacto MODIFICADO -->
-        <div class="input-group">
+        <div class="grupo-de-entrada">
             <label>¿Es titular de la cuenta PayPal?</label>
-            <select id="titular">
-                <option value="Si">Sí</option>
+            <seleccionar id="titular">
+                <option value="Sí">Sí</option>
                 <option value="No">No</option>
-            </select>
+            </seleccionar>
         </div>
         
-        <div class="input-group">
+        <div class="grupo-de-entrada">
             <label>Nombre del titular de PayPal:</label>
             <input type="text" id="nombre" placeholder="Ej: María Pérez">
         </div>
         
-        <div class="input-group">
+        <div class="grupo-de-entrada">
             <label>Correo del titular asociado de PayPal:</label>
-            <input type="email" id="correo" placeholder="Ej: ejemplo@gmail.com">
+            <input type="email" id="correo" placeholder="Ej: ejemplo@gmail.com ">
         </div>
         
         <!-- Nota importante -->
@@ -215,35 +215,35 @@
         </div>
         
         <!-- Botón que redirige a WhatsApp -->
-        <button onclick="enviarWhatsApp()">ENVIAR PEDIDO POR WHATSAPP</button>
+        <button onclick="sendWhatsApp()"> ENVIAR PEDIDO POR WHATSAPP</button>
         
         <div class="tasa-info">
             Actualizado hoy: <span id="fecha">30/05/2024</span>
         </div>
     </div>
 
-    <script>
+    <guión>
         // ¡EDITA ESTOS VALORES DIARIAMENTE!
-        const tasaVES = 1234.56;
+        constante igualVES = 1234.56;
         const comisionPorcentaje = 5.4;
-        const comisionFijaUSD = 0.30;
+        comisión constanteFijaUSD = 0.30;
 
-        function calcular() {
-            const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
+        función calcular() {
+            const paypalUSD = parseFloat(document.getElementById ("cantidad-paypal" ).value) || 0;
             const comisionTotal = (paypalUSD * (comisionPorcentaje / 100)) + comisionFijaUSD;
             const netoUSD = paypalUSD - comisionTotal;
             const totalVES = netoUSD * tasaVES;
             
-            document.getElementById("net-amount").textContent = netoUSD.toFixed(2) + " USD";
-            document.getElementById("ves-amount").textContent = totalVES.toLocaleString("es-VE", {maximumFractionDigits: 2});
-            document.getElementById("tasa-actual").textContent = tasaVES.toLocaleString("es-VE") + " VES/USD";
+            document.getElementById(" cantidad-neta").textContent = netoUSD.toFixed(2) + " USD";
+            document.getElementById("ves- cantidad").textContent = totalVES.toLocaleString("es- VE", {maximumFractionDigits: 2});
+            document.getElementById("tasa- actual").textContent = tasaVES.toLocaleString("es-VE" ) + " VES/USD";
         }
 
-        function enviarWhatsApp() {
-            const paypalUSD = document.getElementById("paypal-amount").value;
-            const netoUSD = document.getElementById("net-amount").textContent;
-            const vesAmount = document.getElementById("ves-amount").textContent;
-            const titular = document.getElementById("titular").value;
+        función enviarWhatsApp() {
+            const paypalUSD = document.getElementById(" monto-paypal").valor;
+            const netoUSD = document.getElementById(" cantidad-neta").textContent;
+            const vesAmount = document.getElementById("ves- cantidad").textContent;
+            const titular = document.getElementById(" titular").value;
             const nombre = document.getElementById("nombre").value;
             const correo = document.getElementById("correo").value;
             
@@ -251,17 +251,17 @@
                             `🟢 *Titular de la cuenta:* ${titular}%0A` +
                             `📌 *Nombre:* ${nombre}%0A` +
                             `📧 *Correo PayPal:* ${correo}%0A` +
-                            `💵 *Monto a cambiar:* ${paypalUSD} USD%0A` +
+                            ` 💵*Monto a cambiar:* ${paypalUSD} USD%0A` +
                             `💰 *Llega neto:* ${netoUSD}%0A` +
                             `🤑 *Bolívares a recibir:* ${vesAmount} VES%0A%0A` +
                             `¡Hola! Quiero realizar esta operación.`;
             
-            window.open(`https://wa.me/573147641813?text=${mensaje}`, "_blank");
+            ventana.open(` https://wa.me/ 573147641813?text=${mensaje}` , "_blank");
         }
 
-        document.addEventListener("DOMContentLoaded", calcular);
-        document.getElementById("paypal-amount").addEventListener("input", calcular);
-        document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
+        document.addEventListener(" DOMContentLoaded", calcular);
+        document.getElementById(" cantidad-paypal"). addEventListener("entrada", calcular);
+        document.getElementById(" fecha").textContent = new Date().toLocaleDateString("es- ES");
     </script>
-</body>
+</cuerpo>
 </html>
