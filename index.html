@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora PayPal USD → VES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .calculator {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #003087;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .input-with-logo {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .input-with-logo input {
+            flex: 1;
+            border: none;
+            margin-bottom: 0;
+        }
+        .paypal-logo {
+            background: #003087;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .result-box {
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .result-title {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .result-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003087;
+        }
+        button {
+            background: #003087;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .tasa-info {
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>Calculadora PayPal USD → VES</h1>
+        
+        <!-- Campo para el monto en PayPal -->
+        <div class="input-group">
+            <label>Monto a vender en PayPal (USD):</label>
+            <div class="input-with-logo">
+                <input type="number" id="paypal-amount" placeholder="Ej: 100" value="100">
+                <div class="paypal-logo">PayPal</div>
+            </div>
+        </div>
+        
+        <!-- Resultados calculados -->
+        <div class="result-box">
+            <div class="result-title">Llega después de comisiones:</div>
+            <div class="result-value" id="net-amount">94.30 USD</div>
+            <div style="font-size: 12px; color: #777;">
+                Comisión: 5.4% + $0.30 USD
+            </div>
+        </div>
+        
+        <div class="result-box">
+            <div class="result-title">Bolívares a recibir:</div>
+            <div class="result-value" id="ves-amount">123,456.78 VES</div>
+            <div style="font-size: 12px; color: #777;">
+                Tasa: <span id="tasa-actual">1,234.56 VES/USD</span>
+            </div>
+        </div>
+        
+        <!-- Formulario de contacto -->
+        <div class="input-group">
+            <label>Nombre del titular de PayPal:</label>
+            <input type="text" id="nombre" placeholder="Ej: María Pérez">
+        </div>
+        
+        <div class="input-group">
+            <label>Correo del titular de PayPal:</label>
+            <input type="email" id="correo" placeholder="Ej: ejemplo@gmail.com">
+        </div>
+        
+        <div class="input-group">
+            <label>Tu número de teléfono (WhatsApp):</label>
+            <input type="tel" id="telefono" placeholder="Ej: 584123456789">
+        </div>
+        
+        <!-- Botón que redirige a WhatsApp con todos los datos -->
+        <button onclick="enviarWhatsApp()">ENVIAR PEDIDO POR WHATSAPP</button>
+        
+        <div class="tasa-info">
+            Actualizado hoy: <span id="fecha">30/05/2024</span>
+        </div>
+    </div>
+
+    <script>
+        // ¡EDITA ESTOS VALORES DIARIAMENTE!
+        const tasaVES = 1234.56; // Tasa del día (cámbiala manualmente)
+        const comisionPorcentaje = 5.4; // 5.4%
+        const comisionFijaUSD = 0.30; // $0.30 USD
+
+        function calcular() {
+            // Obtener monto ingresado
+            const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
+            
+            // Calcular comisiones
+            const comisionTotal = (paypalUSD * (comisionPorcentaje / 100)) + comisionFijaUSD;
+            const netoUSD = paypalUSD - comisionTotal;
+            
+            // Calcular VES
+            const totalVES = netoUSD * tasaVES;
+            
+            // Mostrar resultados
+            document.getElementById("net-amount").textContent = netoUSD.toFixed(2) + " USD";
+            document.getElementById("ves-amount").textContent = totalVES.toLocaleString("es-VE", {maximumFractionDigits: 2}) + " VES";
+            document.getElementById("tasa-actual").textContent = tasaVES.toLocaleString("es-VE") + " VES/USD";
+        }
+
+        // Función para enviar datos por WhatsApp
+        function enviarWhatsApp() {
+            const paypalUSD = document.getElementById("paypal-amount").value;
+            const netoUSD = document.getElementById("net-amount").textContent;
+            const vesAmount = document.getElementById("ves-amount").textContent;
+            const nombre = document.getElementById("nombre").value;
+            const correo = document.getElementById("correo").value;
+            const telefono = document.getElementById("telefono").value;
+            
+            const mensaje = `*NUEVO PEDIDO PAYPAL*%0A%0A` +
+                            `📌 *Nombre:* ${nombre}%0A` +
+                            `📞 *Teléfono:* ${telefono}%0A` +
+                            `📧 *Correo PayPal:* ${correo}%0A` +
+                            `💵 *Monto a cambiar:* ${paypalUSD} USD%0A` +
+                            `💰 *Llega neto:* ${netoUSD}%0A` +
+                            `🤑 *Bolívares a recibir:* ${vesAmount}%0A%0A` +
+                            `¡Hola! Quiero realizar esta operación. ¿Cómo procedemos?`;
+            
+            // Reemplaza "584123456789" por TU NÚMERO de WhatsApp (con código de país)
+            window.open(`https://wa.me/584123456789?text=${mensaje}`, "_blank");
+        }
+
+        // Calcular al cargar la página y al cambiar el valor
+        document.addEventListener("DOMContentLoaded", calcular);
+        document.getElementById("paypal-amount").addEventListener("input", calcular);
+        
+        // Mostrar fecha actual
+        document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
+    </script>
+</body>
+</html>
