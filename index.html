@@ -13,6 +13,21 @@
             display: flex;
             justify-content: center;
         }
+        body::before {
+            content: "";
+            background-image: url('https://github.com/macmacteam/speed-calculadora-paypal/blob/main/pp.png?raw=true');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 60%; /* Ajusta el tamaño de la imagen */
+            opacity: 0.15; /* Transparencia (0.1 a 0.3 recomendado) */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Para que esté detrás del contenido */
+            pointer-events: none; /* Permite interactuar con elementos sobre ella */
+        }
         .calculator {
             background: white;
             border-radius: 10px;
