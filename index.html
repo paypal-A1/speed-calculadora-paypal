@@ -369,6 +369,52 @@
         /**
          * Calcula el monto neto después de comisiones y la conversión a moneda local
          */
+        /**
+         * Carga las tasas desde Firebase
+         */
+        async function cargarTasas() {
+            try {
+                const docRef = firebase.firestore().doc("configuraciones/tasas");
+                const docSnap = await docRef.get();
+                
+                if (docSnap.exists) {
+                    const data = docSnap.data();
+                    config.tasas = {
+                        VES: {
+                            valor: data.VES,
+                            flag: "venezuela.png",
+                            simbolo: "VES/USD"
+                        },
+                        COP: {
+                            valor: data.COP,
+                            flag: "colombia.png",
+                            simbolo: "COP/USD"
+                        }
+                    };
+                    
+                    estado.tasaActual = config.tasas[estado.monedaActual].valor;
+                    document.getElementById("tasa-actual").textContent = estado.tasaActual.toLocaleString("es-VE");
+                    document.getElementById("fecha").textContent = data.ultimaActualizacion;
+                    
+                    calcular(); // Recalcular con los nuevos valores
+                }
+            } catch (error) {
+                console.error("Error cargando tasas:", error);
+                // Valores por defecto en caso de error
+                config.tasas = {
+                    VES: {
+                        valor: 100.56,
+                        flag: "venezuela.png",
+                        simbolo: "VES/USD"
+                    },
+                    COP: {
+                        valor: 3950,
+                        flag: "colombia.png",
+                        simbolo: "COP/USD"
+                    }
+                };
+            }
+        }
         function calcular() {
             const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
             
