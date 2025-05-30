@@ -317,11 +317,30 @@
         <div class="tasa-info">
             Actualizado hoy: <span id="fecha">30/05/2024</span>
         </div>
-    </div>
+</div>
 
-    <script>
-        // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
-        const config = {
+<!-- Agrega estos scripts de Firebase justo antes de tu script principal -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+<script>
+    // Configuración de Firebase (usa tus valores reales)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCbtXmTCRItcUsE1AAy6xcpynfqa3DId38",
+        authDomain: "calculadora-78469.firebaseapp.com",
+        projectId: "calculadora-78469",
+        storageBucket: "calculadora-78469.appspot.com",
+        messagingSenderId: "TU_SENDER_ID",
+        appId: "TU_APP_ID",
+        measurementId: "TU_MEASUREMENT_ID"
+    };
+
+    // Inicializa Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
+    const config = {
             comisionPorcentaje: 5.4, // Comisión porcentual de PayPal
             comisionFijaUSD: 0.30, // Comisión fija de PayPal en USD
             whatsappNumber: "573147641813", // Número de WhatsApp para contactar
