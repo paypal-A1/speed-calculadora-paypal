@@ -318,23 +318,42 @@
             Actualizado hoy: <span id="fecha">30/05/2024</span>
         </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics-compat.js"></script>
 
     <script>
+        // Configuración EXACTA de Firebase que me proporcionaste
+        const firebaseConfig = {
+            apiKey: "AIzaSyCbtXmTCRItcUsE1AAy6xcpynfqa3DId38",
+            authDomain: "calculadora-704e9.firebaseapp.com",
+            projectId: "calculadora-704e9",
+            storageBucket: "calculadora-704e9.appspot.com",
+            messagingSenderId: "1071021410642",
+            appId: "1:1071021410642:web:e5931900942d70f5e8128b",
+            measurementId: "G-9XMVJVW49S"
+        };
+
+        // Inicializa Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const analytics = firebase.analytics();
+
         // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
         const config = {
             comisionPorcentaje: 5.4, // Comisión porcentual de PayPal
             comisionFijaUSD: 0.30, // Comisión fija de PayPal en USD
             whatsappNumber: "573147641813", // Número de WhatsApp para contactar
             decimales: 2, // Decimales a mostrar en resultados
-            // Tasas de cambio para cada moneda
+            // Tasas de cambio para cada moneda (ahora se cargarán desde Firebase)
             tasas: {
                 VES: {
-                    valor: 100.56,
+                    valor: 100.56, // Valor por defecto
                     flag: "venezuela.png",
                     simbolo: "VES/USD"
                 },
                 COP: {
-                    valor: 3950,
+                    valor: 3950, // Valor por defecto
                     flag: "colombia.png",
                     simbolo: "COP/USD"
                 }
@@ -348,18 +367,47 @@
         };
 
         /**
+         * Carga las tasas desde Firebase
+         */
+        async function cargarTasas() {
+            try {
+                const docRef = db.doc("configuraciones/tasas");
+                const docSnap = await docRef.get();
+                
+                if (docSnap.exists) {
+                    const data = docSnap.data();
+                    // Actualiza las tasas desde Firebase
+                    config.tasas.VES.valor = data.VES;
+                    config.tasas.COP.valor = data.COP;
+                    
+                    estado.tasaActual = config.tasas[estado.monedaActual].valor;
+                    document.getElementById("tasa-actual").textContent = estado.tasaActual.toLocaleString("es-VE");
+                    document.getElementById("fecha").textContent = data.ultimaActualizacion || new Date().toLocaleDateString("es-ES");
+                    
+                    calcular(); // Recalcular con los nuevos valores
+                    
+                    // Registra evento de analítica
+                    analytics.logEvent('tasas_cargadas');
+                }
+            } catch (error) {
+                console.error("Error cargando tasas:", error);
+                // Mantiene los valores por defecto si hay error
+            }
+        }
+
+        /**
          * Calcula el monto neto después de comisiones y la conversión a moneda local
          */
         function calcular() {
             const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
-            
+           
             // Cálculo de comisiones
             const comisionTotal = (paypalUSD * (config.comisionPorcentaje / 100)) + config.comisionFijaUSD;
             const netoUSD = paypalUSD - comisionTotal;
-            
+           
             // Conversión a moneda local
             const totalLocal = netoUSD * estado.tasaActual;
-            
+           
             // Actualización de la interfaz
             document.getElementById("net-amount").textContent = netoUSD.toFixed(config.decimales) + " USD";
             document.getElementById("local-amount").textContent = totalLocal.toLocaleString("es-VE", {
@@ -374,14 +422,14 @@
         function cambiarMoneda(moneda) {
             estado.monedaActual = moneda;
             estado.tasaActual = config.tasas[moneda].valor;
-            
+           
             // Actualizar bandera y texto
             document.getElementById("current-currency").textContent = moneda;
             document.getElementById("current-currency-text").textContent = moneda;
-            document.getElementById("current-currency-flag").src = 
+            document.getElementById("current-currency-flag").src =
                 `https://github.com/macmacteam/speed-calculadora-paypal/blob/main/${config.tasas[moneda].flag}?raw=true`;
             document.getElementById("tasa-currency").textContent = config.tasas[moneda].simbolo;
-            
+           
             // Recalcular
             calcular();
         }
@@ -398,13 +446,13 @@
             const nombre = document.getElementById("nombre").value;
             const correo = document.getElementById("correo").value;
             const moneda = estado.monedaActual;
-            
+           
             // Validación básica de campos requeridos
             if (!titular || !nombre || !correo) {
                 alert("Por favor complete todos los campos requeridos");
                 return;
             }
-            
+           
             // Construcción del mensaje para WhatsApp
             const mensaje = `*NUEVO PEDIDO PAYPAL*%0A%0A` +
                             `🟢 *Titular de la cuenta:* ${titular}%0A` +
@@ -414,73 +462,78 @@
                             `💰 *Llega neto:* ${netoUSD}%0A` +
                             `🤑 *${moneda} a recibir:* ${localAmount} ${moneda}%0A%0A` +
                             `¡Hola! Quiero realizar esta operación.`;
+           
+            // Registra evento de analítica
+            analytics.logEvent('whatsapp_enviado');
             
             // Abrir WhatsApp con el mensaje predefinido
             window.open(`https://wa.me/${config.whatsappNumber}?text=${mensaje}`, "_blank");
         }
 
-         // INICIALIZACIÓN
-    document.addEventListener("DOMContentLoaded", function() {
-        // Configurar eventos y valores iniciales
-        calcular();
-        document.getElementById("paypal-amount").addEventListener("input", calcular);
-        document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
-        
-        // Obtener elementos del selector de moneda
-        const currencySelector = document.querySelector(".currency-selector");
-        const currencyDropdown = document.querySelector(".currency-dropdown");
-        const opcionesMoneda = document.querySelectorAll(".currency-option");
-        
-        // Mostrar/ocultar el menú al hacer clic en el selector
-        currencySelector.addEventListener("click", function(e) {
-            e.stopPropagation();
-            const isVisible = currencyDropdown.style.display === "block";
-            currencyDropdown.style.display = isVisible ? "none" : "block";
-        });
-        
-        // Manejar selección de moneda
-        opcionesMoneda.forEach(opcion => {
-            opcion.addEventListener("click", function(e) {
+        // INICIALIZACIÓN
+        document.addEventListener("DOMContentLoaded", function() {
+            // Primero cargar las tasas desde Firebase
+            cargarTasas();
+            
+            // Configurar eventos y valores iniciales
+            document.getElementById("paypal-amount").addEventListener("input", calcular);
+            
+            // Obtener elementos del selector de moneda
+            const currencySelector = document.querySelector(".currency-selector");
+            const currencyDropdown = document.querySelector(".currency-dropdown");
+            const opcionesMoneda = document.querySelectorAll(".currency-option");
+           
+            // Mostrar/ocultar el menú al hacer clic en el selector
+            currencySelector.addEventListener("click", function(e) {
                 e.stopPropagation();
-                cambiarMoneda(this.getAttribute("data-currency"));
+                const isVisible = currencyDropdown.style.display === "block";
+                currencyDropdown.style.display = isVisible ? "none" : "block";
+            });
+           
+            // Manejar selección de moneda
+            opcionesMoneda.forEach(opcion => {
+                opcion.addEventListener("click", function(e) {
+                    e.stopPropagation();
+                    cambiarMoneda(this.getAttribute("data-currency"));
+                    currencyDropdown.style.display = "none";
+                });
+            });
+           
+            // Cerrar el menú al tocar fuera de él
+            document.addEventListener("click", function() {
                 currencyDropdown.style.display = "none";
             });
+           
+            // Prevenir que el menú se cierre al tocar dentro de él
+            currencyDropdown.addEventListener("click", function(e) {
+                e.stopPropagation();
+            });
         });
-        
-        // Cerrar el menú al tocar fuera de él
-        document.addEventListener("click", function() {
-            currencyDropdown.style.display = "none";
-        });
-        
-        // Prevenir que el menú se cierre al tocar dentro de él
-        currencyDropdown.addEventListener("click", function(e) {
-            e.stopPropagation();
-        });
-    });
-</script>
+    </script>
 
-<style>
-    /* Agregar estas reglas CSS adicionales */
-    .currency-dropdown {
-        display: none;
-        /* ... (mantener las otras propiedades) */
-    }
-    .currency-dropdown.show {
-        display: block;
-    }
-    @media (max-width: 768px) {
-        .currency-option {
-            padding: 10px;
-        }
+    <!-- [Tus estilos adicionales se mantienen igual] -->
+    <style>
         .currency-dropdown {
-            width: 120px;
-            right: -10px;
+            display: none;
         }
-    }
-    .currency-selector::after {
-    content: "▼";
-    font-size: 12px;
-    margin-left: 5px;
-    color: #003087;
-    }
-</style>
+        .currency-dropdown.show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .currency-option {
+                padding: 10px;
+            }
+            .currency-dropdown {
+                width: 120px;
+                right: -10px;
+            }
+        }
+        .currency-selector::after {
+            content: "▼";
+            font-size: 12px;
+            margin-left: 5px;
+            color: #003087;
+        }
+    </style>
+</body>
+</html>
