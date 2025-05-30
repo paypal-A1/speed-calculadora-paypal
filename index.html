@@ -419,21 +419,62 @@
             window.open(`https://wa.me/${config.whatsappNumber}?text=${mensaje}`, "_blank");
         }
 
-        // INICIALIZACIÓN
-        document.addEventListener("DOMContentLoaded", function() {
-            // Configurar eventos y valores iniciales
-            calcular();
-            document.getElementById("paypal-amount").addEventListener("input", calcular);
-            document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
-            
-            // Configurar eventos para el selector de moneda
-            const opcionesMoneda = document.querySelectorAll(".currency-option");
-            opcionesMoneda.forEach(opcion => {
-                opcion.addEventListener("click", function() {
-                    cambiarMoneda(this.getAttribute("data-currency"));
-                });
+         // INICIALIZACIÓN
+    document.addEventListener("DOMContentLoaded", function() {
+        // Configurar eventos y valores iniciales
+        calcular();
+        document.getElementById("paypal-amount").addEventListener("input", calcular);
+        document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
+        
+        // Obtener elementos del selector de moneda
+        const currencySelector = document.querySelector(".currency-selector");
+        const currencyDropdown = document.querySelector(".currency-dropdown");
+        const opcionesMoneda = document.querySelectorAll(".currency-option");
+        
+        // Mostrar/ocultar el menú al hacer clic en el selector
+        currencySelector.addEventListener("click", function(e) {
+            e.stopPropagation();
+            const isVisible = currencyDropdown.style.display === "block";
+            currencyDropdown.style.display = isVisible ? "none" : "block";
+        });
+        
+        // Manejar selección de moneda
+        opcionesMoneda.forEach(opcion => {
+            opcion.addEventListener("click", function(e) {
+                e.stopPropagation();
+                cambiarMoneda(this.getAttribute("data-currency"));
+                currencyDropdown.style.display = "none";
             });
         });
-    </script>
-</body>
-</html>
+        
+        // Cerrar el menú al tocar fuera de él
+        document.addEventListener("click", function() {
+            currencyDropdown.style.display = "none";
+        });
+        
+        // Prevenir que el menú se cierre al tocar dentro de él
+        currencyDropdown.addEventListener("click", function(e) {
+            e.stopPropagation();
+        });
+    });
+</script>
+
+<style>
+    /* Agregar estas reglas CSS adicionales */
+    .currency-dropdown {
+        display: none;
+        /* ... (mantener las otras propiedades) */
+    }
+    .currency-dropdown.show {
+        display: block;
+    }
+    @media (max-width: 768px) {
+        .currency-option {
+            padding: 10px;
+        }
+        .currency-dropdown {
+            width: 120px;
+            right: -10px;
+        }
+    }
+</style>
