@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora PayPal USD → VES</title>
+    <title>Calculadora PayPal USD → VES/COP</title>
     <style>
         /* ESTILOS GENERALES */
         body {
@@ -180,11 +180,50 @@
             margin: 15px 0;
             text-align: center;
         }
-        .venezuela-flag {
-            max-width: 26px;
+        .currency-flag {
+            max-width: 30px;
             height: auto;
             vertical-align: middle;
             margin-left: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .currency-flag:hover {
+            transform: scale(1.1);
+        }
+        .currency-selector {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 5px;
+            position: relative;
+        }
+        .currency-name {
+            margin-left: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .currency-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 10;
+            display: none;
+        }
+        .currency-option {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .currency-option:hover {
+            background: #f0f2f5;
+        }
+        .currency-selector:hover .currency-dropdown {
+            display: block;
         }
     </style>
 </head>
@@ -198,7 +237,7 @@
                 <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/whatsap.png?raw=true" alt="WhatsApp" class="whatsapp-logo">
                 <div class="phone-number">+57 314 7641813</div>
             </div>
-            <h1>Calculadora PayPal USD → VES</h1>
+            <h1>Calculadora PayPal USD → <span id="current-currency">VES</span></h1>
         </div>
         
         <!-- ENTRADA DE MONTO EN PAYPAL -->
@@ -215,22 +254,34 @@
             <div class="result-title">Llega después de comisiones:</div>
             <div class="result-value">
                 <span id="net-amount">94.30</span>
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/250_Paypal_logo-512.png?raw=true" alt="Venezuela" class="venezuela-flag">
+                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/250_Paypal_logo-512.png?raw=true" alt="PayPal" class="currency-flag">
             <div style="font-size: 12px; color: #777;">
                 Comisión: 5.4% + $0.30 USD
             </div>
         </div>
         
-        <!-- RESULTADO EN BOLÍVARES -->
+        <!-- RESULTADO EN MONEDA LOCAL -->
         <div class="result-box">
-            <div class="result-title">Bolívares a recibir:</div>
+            <div class="result-title">Monto a recibir:</div>
             <div class="result-value">
-                <span id="ves-amount">123,456.78 </span>
-                <span class="current-text">VES</span>
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="Venezuela" class="venezuela-flag">
+                <span id="local-amount">123,456.78 </span>
+                <div class="currency-selector">
+                    <span id="current-currency-text" class="currency-name">VES</span>
+                    <img id="current-currency-flag" src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="Moneda" class="currency-flag">
+                    <div class="currency-dropdown">
+                        <div class="currency-option" data-currency="VES" data-rate="100.56" data-flag="venezuela.png">
+                            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="VES" class="currency-flag">
+                            <span>VES</span>
+                        </div>
+                        <div class="currency-option" data-currency="COP" data-rate="3950" data-flag="colombia.png">
+                            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/colombia.png?raw=true" alt="COP" class="currency-flag">
+                            <span>COP</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div style="font-size: 14px; color: #777;">
-                Tasa: <span id="tasa-actual">100.56 VES/USD</span>
+                Tasa: <span id="tasa-actual">100.56</span> <span id="tasa-currency">VES/USD</span>
             </div>
         </div>
         
@@ -271,15 +322,33 @@
     <script>
         // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
         const config = {
-            tasaVES: 100.56, // Tasa de cambio actual VES/USD
             comisionPorcentaje: 5.4, // Comisión porcentual de PayPal
             comisionFijaUSD: 0.30, // Comisión fija de PayPal en USD
             whatsappNumber: "573147641813", // Número de WhatsApp para contactar
-            decimales: 2 // Decimales a mostrar en resultados
+            decimales: 2, // Decimales a mostrar en resultados
+            // Tasas de cambio para cada moneda
+            tasas: {
+                VES: {
+                    valor: 100.56,
+                    flag: "venezuela.png",
+                    simbolo: "VES/USD"
+                },
+                COP: {
+                    valor: 3950,
+                    flag: "colombia.png",
+                    simbolo: "COP/USD"
+                }
+            }
+        };
+
+        // Estado actual de la aplicación
+        let estado = {
+            monedaActual: "VES",
+            tasaActual: config.tasas.VES.valor
         };
 
         /**
-         * Calcula el monto neto después de comisiones y la conversión a bolívares
+         * Calcula el monto neto después de comisiones y la conversión a moneda local
          */
         function calcular() {
             const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
@@ -288,16 +357,33 @@
             const comisionTotal = (paypalUSD * (config.comisionPorcentaje / 100)) + config.comisionFijaUSD;
             const netoUSD = paypalUSD - comisionTotal;
             
-            // Conversión a bolívares
-            const totalVES = netoUSD * config.tasaVES;
+            // Conversión a moneda local
+            const totalLocal = netoUSD * estado.tasaActual;
             
             // Actualización de la interfaz
             document.getElementById("net-amount").textContent = netoUSD.toFixed(config.decimales) + " USD";
-            document.getElementById("ves-amount").textContent = totalVES.toLocaleString("es-VE", {
+            document.getElementById("local-amount").textContent = totalLocal.toLocaleString("es-VE", {
                 maximumFractionDigits: config.decimales
             });
-            document.getElementById("tasa-actual").textContent = 
-                config.tasaVES.toLocaleString("es-VE") + " VES/USD";
+            document.getElementById("tasa-actual").textContent = estado.tasaActual.toLocaleString("es-VE");
+        }
+
+        /**
+         * Cambia la moneda seleccionada y actualiza la interfaz
+         */
+        function cambiarMoneda(moneda) {
+            estado.monedaActual = moneda;
+            estado.tasaActual = config.tasas[moneda].valor;
+            
+            // Actualizar bandera y texto
+            document.getElementById("current-currency").textContent = moneda;
+            document.getElementById("current-currency-text").textContent = moneda;
+            document.getElementById("current-currency-flag").src = 
+                `https://github.com/macmacteam/speed-calculadora-paypal/blob/main/${config.tasas[moneda].flag}?raw=true`;
+            document.getElementById("tasa-currency").textContent = config.tasas[moneda].simbolo;
+            
+            // Recalcular
+            calcular();
         }
 
         /**
@@ -307,10 +393,11 @@
             // Obtener valores del formulario
             const paypalUSD = document.getElementById("paypal-amount").value;
             const netoUSD = document.getElementById("net-amount").textContent;
-            const vesAmount = document.getElementById("ves-amount").textContent;
+            const localAmount = document.getElementById("local-amount").textContent;
             const titular = document.getElementById("titular").value;
             const nombre = document.getElementById("nombre").value;
             const correo = document.getElementById("correo").value;
+            const moneda = estado.monedaActual;
             
             // Validación básica de campos requeridos
             if (!titular || !nombre || !correo) {
@@ -325,7 +412,7 @@
                             `📧 *Correo PayPal:* ${correo}%0A` +
                             `💵 *Monto a cambiar:* ${paypalUSD} USD%0A` +
                             `💰 *Llega neto:* ${netoUSD}%0A` +
-                            `🤑 *Bolívares a recibir:* ${vesAmount} VES%0A%0A` +
+                            `🤑 *${moneda} a recibir:* ${localAmount} ${moneda}%0A%0A` +
                             `¡Hola! Quiero realizar esta operación.`;
             
             // Abrir WhatsApp con el mensaje predefinido
@@ -338,6 +425,14 @@
             calcular();
             document.getElementById("paypal-amount").addEventListener("input", calcular);
             document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
+            
+            // Configurar eventos para el selector de moneda
+            const opcionesMoneda = document.querySelectorAll(".currency-option");
+            opcionesMoneda.forEach(opcion => {
+                opcion.addEventListener("click", function() {
+                    cambiarMoneda(this.getAttribute("data-currency"));
+                });
+            });
         });
     </script>
 </body>
