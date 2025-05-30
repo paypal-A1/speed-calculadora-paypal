@@ -485,9 +485,12 @@
         }
 
          // INICIALIZACIÓN
-    document.addEventListener("DOMContentLoaded", function() {
-        // Configurar eventos y valores iniciales
-        calcular();
+    document.addEventListener(" DOMContentLoaded", función() {
+        // Cargar tasas desde Firebase primero
+        cargarTasas();
+        
+        // Configurar eventos
+        document.getElementById(" cantidad-paypal"). addEventListener("input", calcular);
         document.getElementById("paypal-amount").addEventListener("input", calcular);
         document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
         
