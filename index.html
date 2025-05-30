@@ -317,30 +317,11 @@
         <div class="tasa-info">
             Actualizado hoy: <span id="fecha">30/05/2024</span>
         </div>
-</div>
+    </div>
 
-<!-- Agrega estos scripts de Firebase justo antes de tu script principal -->
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-
-<script>
-    // Configuración de Firebase (usa tus valores reales)
-    const firebaseConfig = {
-        apiKey: "AIzaSyCbtXmTCRItcUsE1AAy6xcpynfqa3DId38",
-        authDomain: "calculadora-78469.firebaseapp.com",
-        projectId: "calculadora-78469",
-        storageBucket: "calculadora-78469.appspot.com",
-        messagingSenderId: "TU_SENDER_ID",
-        appId: "TU_APP_ID",
-        measurementId: "TU_MEASUREMENT_ID"
-    };
-
-    // Inicializa Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
-    const config = {
+    <script>
+        // CONFIGURACIÓN PRINCIPAL (EDITAR ESTOS VALORES PARA ACTUALIZAR)
+        const config = {
             comisionPorcentaje: 5.4, // Comisión porcentual de PayPal
             comisionFijaUSD: 0.30, // Comisión fija de PayPal en USD
             whatsappNumber: "573147641813", // Número de WhatsApp para contactar
@@ -369,52 +350,6 @@
         /**
          * Calcula el monto neto después de comisiones y la conversión a moneda local
          */
-        /**
-         * Carga las tasas desde Firebase
-         */
-        async function cargarTasas() {
-            try {
-                const docRef = firebase.firestore().doc("configuraciones/tasas");
-                const docSnap = await docRef.get();
-                
-                if (docSnap.exists) {
-                    const data = docSnap.data();
-                    config.tasas = {
-                        VES: {
-                            valor: data.VES,
-                            flag: "venezuela.png",
-                            simbolo: "VES/USD"
-                        },
-                        COP: {
-                            valor: data.COP,
-                            flag: "colombia.png",
-                            simbolo: "COP/USD"
-                        }
-                    };
-                    
-                    estado.tasaActual = config.tasas[estado.monedaActual].valor;
-                    document.getElementById("tasa-actual").textContent = estado.tasaActual.toLocaleString("es-VE");
-                    document.getElementById("fecha").textContent = data.ultimaActualizacion;
-                    
-                    calcular(); // Recalcular con los nuevos valores
-                }
-            } catch (error) {
-                console.error("Error cargando tasas:", error);
-                // Valores por defecto en caso de error
-                config.tasas = {
-                    VES: {
-                        valor: 100.56,
-                        flag: "venezuela.png",
-                        simbolo: "VES/USD"
-                    },
-                    COP: {
-                        valor: 3950,
-                        flag: "colombia.png",
-                        simbolo: "COP/USD"
-                    }
-                };
-            }
-        }
         function calcular() {
             const paypalUSD = parseFloat(document.getElementById("paypal-amount").value) || 0;
             
@@ -485,12 +420,9 @@
         }
 
          // INICIALIZACIÓN
-    document.addEventListener(" DOMContentLoaded", función() {
-        // Cargar tasas desde Firebase primero
-        cargarTasas();
-        
-        // Configurar eventos
-        document.getElementById(" cantidad-paypal"). addEventListener("input", calcular);
+    document.addEventListener("DOMContentLoaded", function() {
+        // Configurar eventos y valores iniciales
+        calcular();
         document.getElementById("paypal-amount").addEventListener("input", calcular);
         document.getElementById("fecha").textContent = new Date().toLocaleDateString("es-ES");
         
