@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora PayPal USD → VES/COP</title>
-    <link rel="icon" href="https://raw.githubusercontent.com/macmacteam/speed-calculadora-paypal/refs/heads/main/logo_speed%20FAVICON.ico" type="image/x-icon">
-    <link rel="https://raw.githubusercontent.com/macmacteam/speed-calculadora-paypal/refs/heads/main/logo_speed%20FAVICON.ico" type="image/x-icon">
+    <link rel="icon" href="https://raw.githubusercontent.com/paypal-A1/speed-calculadora-paypal/refs/heads/main/logo_speed%20FAVICON.ico" type="image/x-icon">
+    <link rel="https://raw.githubusercontent.com/paypal-A1/speed-calculadora-paypal/refs/heads/main/logo_speed%20FAVICON.ico" type="image/x-icon">
     <style>
         /* ESTILOS GENERALES */
         body {
@@ -19,7 +19,7 @@
         /* Fondo con logo semitransparente */
         body::before {
             content: "";
-            background-image: url('https://github.com/macmacteam/speed-calculadora-paypal/blob/main/pp.png?raw=true');
+            background-image: url('https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/pp.png?raw=true');
             background-repeat: no-repeat;
             background-position: center;
             background-size: 60%;
@@ -233,10 +233,10 @@
     <div class="calculator">
         <!-- ENCABEZADO CON LOGO Y CONTACTO -->
         <div class="header">
-            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/speed-transparente-bucle.gif?raw=true" alt="Logo" class="logo">
+            <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/speed-transparente-bucle.gif?raw=true" alt="Logo" class="logo">
             <div class="slogan">TU CAMBIO RÁPIDO Y SEGURO</div>
             <div class="whatsapp-contact">
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/whatsap.png?raw=true" alt="WhatsApp" class="whatsapp-logo">
+                <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/whatsap.png?raw=true" alt="WhatsApp" class="whatsapp-logo">
                 <div class="phone-number">+57 314 7641813</div>
             </div>
             <h1>Calculadora PayPal USD → <span id="current-currency">VES</span></h1>
@@ -247,7 +247,7 @@
             <label>Monto a vender en PayPal (USD):</label>
             <div class="input-with-logo">
                 <input type="number" id="paypal-amount" placeholder="Ej: 100" value="100">
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/pp.png?raw=true" alt="PayPal" class="paypal-icon">
+                <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/pp.png?raw=true" alt="PayPal" class="paypal-icon">
             </div>
         </div>
         
@@ -256,7 +256,7 @@
             <div class="result-title">Llega después de comisiones:</div>
             <div class="result-value">
                 <span id="net-amount">94.30</span>
-                <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/250_Paypal_logo-512.png?raw=true" alt="PayPal" class="currency-flag">
+                <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/250_Paypal_logo-512.png?raw=true" alt="PayPal" class="currency-flag">
             <div style="font-size: 12px; color: #777;">
                 Comisión: 5.4% + $0.30 USD
             </div>
@@ -269,14 +269,14 @@
                 <span id="local-amount">123,456.78 </span>
                 <div class="currency-selector">
                     <span id="current-currency-text" class="currency-name">VES</span>
-                    <img id="current-currency-flag" src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="Moneda" class="currency-flag">
+                    <img id="current-currency-flag" src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="Moneda" class="currency-flag">
                     <div class="currency-dropdown">
                         <div class="currency-option" data-currency="VES" data-rate="100.56" data-flag="venezuela.png">
-                            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="VES" class="currency-flag">
+                            <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/venezuela.png?raw=true" alt="VES" class="currency-flag">
                             <span>VES</span>
                         </div>
                         <div class="currency-option" data-currency="COP" data-rate="3950" data-flag="colombia.png">
-                            <img src="https://github.com/macmacteam/speed-calculadora-paypal/blob/main/colombia.png?raw=true" alt="COP" class="currency-flag">
+                            <img src="https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/colombia.png?raw=true" alt="COP" class="currency-flag">
                             <span>COP</span>
                         </div>
                     </div>
@@ -429,7 +429,7 @@
             document.getElementById("current-currency").textContent = moneda;
             document.getElementById("current-currency-text").textContent = moneda;
             document.getElementById("current-currency-flag").src =
-                `https://github.com/macmacteam/speed-calculadora-paypal/blob/main/${config.tasas[moneda].flag}?raw=true`;
+                `https://github.com/paypal-A1/speed-calculadora-paypal/blob/main/${config.tasas[moneda].flag}?raw=true`;
             document.getElementById("tasa-currency").textContent = config.tasas[moneda].simbolo;
            
             // Recalcular
